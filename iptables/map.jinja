@@ -1,0 +1,16 @@
+{% set iptables = salt['grains.filter_by']({
+  'Debian': {
+    'packages': ['iptables', 'iptables-persistent'],
+  },
+  'RedHat': {
+    'packages': ['iptables'],
+    'service': 'iptables',
+  },
+}, merge=salt['grains.filter_by']({
+  '6': {
+    'packages': ['iptables'],
+  },
+  '7': {
+    'packages': ['iptables','iptables-services'],
+  },
+}, grain='osmajorrelease'), default='Debian') %}
